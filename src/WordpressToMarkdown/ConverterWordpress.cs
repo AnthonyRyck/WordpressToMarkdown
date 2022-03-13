@@ -26,9 +26,6 @@ namespace WordpressToMarkdown
 			return posts;
 		}
 
-
-
-
 		private string ChangeHeader(string content)
 		{
 			return content.Replace("<h1>", MarkdownSyntax.HEADER_1)
