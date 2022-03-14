@@ -48,7 +48,7 @@ namespace WordpressToMarkdown.Models
 		/// </summary>
 		public const string CODE_START = "```";
 
-		public const string CODE_END = "```\r\n";
+		public const string CODE_END = "\r\n```\r\n";
 
 		public const string CODE_IN_LINE = "`";
 

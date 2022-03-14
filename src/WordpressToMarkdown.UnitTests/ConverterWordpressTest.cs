@@ -44,16 +44,17 @@ namespace WordpressToMarkdown.UnitTests
 		{
 			#region Arrange
 
-			var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SAMPLE_CODE_PLUS_IMG);
-			string contentSample = File.ReadAllText(file);
+			var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NAME_SAMPLE_FILE);
+			//string contentSample = File.ReadAllText(file);
 
 			ConverterWordpress converter = new ConverterWordpress();
 
 			#endregion
 
 			#region Act
-
-			var result = converter.ConvertToMarkdown(contentSample);
+			
+			var post = await converter.ConvertToObject(File.OpenRead(file));
+			var result = converter.ConvertToMarkdown(post[0].content.rendered);
 
 			#endregion
 
@@ -63,5 +64,32 @@ namespace WordpressToMarkdown.UnitTests
 
 			#endregion
 		}
+
+
+		[Fact]
+		public void TestCodeConversion()
+		{
+			#region Arrange
+
+			var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CodeBlock.txt");
+			string contentSample = File.ReadAllText(file);
+
+			#endregion
+
+			#region Act
+
+			ConverterWordpress converter = new ConverterWordpress();
+			var tt = converter.ConvertToMarkdown(contentSample);
+
+			#endregion
+
+			#region Assert
+
+
+
+			#endregion
+
+		}
+
 	}
 }
