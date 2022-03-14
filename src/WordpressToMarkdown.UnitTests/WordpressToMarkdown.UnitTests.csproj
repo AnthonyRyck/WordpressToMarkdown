@@ -24,4 +24,13 @@
     <ProjectReference Include="..\WordpressToMarkdown\WordpressToMarkdown.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="SampleCodePlusImg.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="sampleCtrlAltSuppr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

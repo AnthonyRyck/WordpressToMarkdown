@@ -46,7 +46,11 @@ namespace WordpressToMarkdown.Models
 		/// <summary>
 		/// Correspond à <code> ou <pre>
 		/// </summary>
-		public const string CODE = "```";
+		public const string CODE_START = "```";
+
+		public const string CODE_END = "```\r\n";
+
+		public const string CODE_IN_LINE = "`";
 
 		public static string Image(string name, string url)
 		{
