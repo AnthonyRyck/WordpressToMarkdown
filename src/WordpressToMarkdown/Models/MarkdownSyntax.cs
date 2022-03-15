@@ -57,10 +57,5 @@ namespace WordpressToMarkdown.Models
 			return "[" + name + "](" + url + ")";
 		}
 
-		// A voir pour les vidéos
-		// Exemple :
-		// [![Blinking LEDs] (http://img.youtube.com/vi/XAMVzS13HY0/0.jpg)](http://www.youtube.com/watch?v=XAMVzS13HY0 "Blinking LEDs")
-		// [![Alternate Text]({image-url})]({video-url} "Link Title")
-
 	}
 }

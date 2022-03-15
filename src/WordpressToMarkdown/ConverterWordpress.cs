@@ -1,9 +1,4 @@
-﻿using System.Text.Json;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using WordpressToMarkdown.Models;
+﻿using WordpressToMarkdown.Models;
 using HtmlAgilityPack;
 using System.Net;
 
@@ -21,47 +16,34 @@ namespace WordpressToMarkdown
 		/// </summary>
 		private HtmlDocument htmlDocPost;
 
-		public async Task<List<PostWordPress>> ConvertToObject(Stream content)
-		{
-			return await JsonSerializer.DeserializeAsync<List<PostWordPress>>(content);
-		}
-		
-		public async Task<List<PostWordPress>> GetPosts(string url)
-		{
-			List<PostWordPress> posts = new List<PostWordPress>();
 
-			using (var client = new HttpClient())
+
+
+		public Task<string> ConvertToMarkdownAsync(string contentPost, params ITransformWordpress[] transformations)
+		{
+			return Task.Factory.StartNew(() =>
 			{
-				var streamPosts = await client.GetStreamAsync(url);
-				posts = await JsonSerializer.DeserializeAsync<List<PostWordPress>>(streamPosts);
-			}
+				contentPost = WebUtility.HtmlDecode(contentPost);
+				htmlDocPost = new HtmlDocument();
+				htmlDocPost.LoadHtml(contentPost);
 
-			return posts;
-		}
+				contentPost = ChangeHeader(contentPost);
+				contentPost = ChangeStyle(contentPost);
+				contentPost = ChangeList(contentPost);
+				contentPost = ChangeLink(contentPost);
+				contentPost = ChangeImage(contentPost);
+				contentPost = ChangeVideo(contentPost);
+				contentPost = ChangeCodeEnLigne(contentPost);
+				contentPost = ChangeCodeBlock(contentPost);
+				contentPost = ChangeRetourLigne(contentPost);
 
+				foreach (var userTransform in transformations)
+				{
+					contentPost = userTransform.Transform(contentPost);
+				}
 
-		public string ConvertToMarkdown(string contentPost, params ITransformWordpress[] transformations)
-		{
-			contentPost = WebUtility.HtmlDecode(contentPost);
-			htmlDocPost = new HtmlDocument();
-			htmlDocPost.LoadHtml(contentPost);
-
-			contentPost = ChangeHeader(contentPost);
-			contentPost = ChangeStyle(contentPost);
-			contentPost = ChangeList(contentPost);
-			contentPost = ChangeLink(contentPost);
-			contentPost = ChangeImage(contentPost);
-			contentPost = ChangeVideo(contentPost);
-			contentPost = ChangeCodeEnLigne(contentPost);
-			contentPost = ChangeCodeBlock(contentPost);
-			contentPost = ChangeRetourLigne(contentPost);
-
-			foreach (var userTransform in transformations)
-			{
-				contentPost = userTransform.Transform(contentPost);
-			}
-
-			return contentPost;
+				return contentPost;
+			});
 		}
 
 		private string ChangeHeader(string content)
