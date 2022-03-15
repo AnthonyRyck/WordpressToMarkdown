@@ -11,9 +11,11 @@ namespace WordpressToMarkdown
 {
 	public class ConverterWordpress
 	{
-		const string RETOUR_LIGNE = @"\n\n\n\n";
+		/// <summary>
+		/// Arrive quand il y a changement de paragraphe
+		/// </summary>
+		const string CHAGEMENT_PARAGRAPHE = "\n\n\n\n";
 
-		
 		public async Task<List<PostWordPress>> ConvertToObject(Stream content)
 		{
 			return await JsonSerializer.DeserializeAsync<List<PostWordPress>>(content);
@@ -34,7 +36,7 @@ namespace WordpressToMarkdown
 
 		private HtmlDocument doc;
 
-		public string ConvertToMarkdown(string contentPost)
+		public string ConvertToMarkdown(string contentPost, params ITransformWordpress[] transformations)
 		{
 			contentPost = WebUtility.HtmlDecode(contentPost);
 			doc = new HtmlDocument();
@@ -45,9 +47,14 @@ namespace WordpressToMarkdown
 			contentPost = ChangeList(contentPost);
 			contentPost = ChangeLink(contentPost);
 			contentPost = ChangeImage(contentPost);
-			contentPost = ChangeCode(contentPost);
+			contentPost = ChangeCodeEnLigne(contentPost);
 			contentPost = ChangeCodeBlock(contentPost);
 			contentPost = ChangeRetourLigne(contentPost);
+
+			foreach (var userTransform in transformations)
+			{
+				contentPost = userTransform.Transform(contentPost);
+			}
 
 			return contentPost;
 		}
@@ -103,16 +110,19 @@ namespace WordpressToMarkdown
 			//		.Replace(@"<\/h6>", Environment.NewLine);
 		}
 
+		
+
 		private string ChangeRetourLigne(string content)
 		{
-			return content.Replace(RETOUR_LIGNE, Environment.NewLine)
+			content = content.Replace(CHAGEMENT_PARAGRAPHE, string.Empty)
 						.Replace("<br>", MarkdownSyntax.SAUT_LIGNE)
 						.Replace("<p>", Environment.NewLine)
 						.Replace(@"<\/p>", MarkdownSyntax.SAUT_LIGNE)
 						.Replace("</p>", MarkdownSyntax.SAUT_LIGNE);
+			return content;
 		}
 
-		private string ChangeCode(string content)
+		private string ChangeCodeEnLigne(string content)
 		{
 			// Codes en ligne
 			// Exemple :
@@ -121,25 +131,10 @@ namespace WordpressToMarkdown
 
 			foreach (var code in codesLine)
 			{
-				//string preClass = @"<code data-enlighter-language=";
-				//string finPred = "</pre>";
-
-				//int indexStart = content.IndexOf(preClass);
-				//int indexEnd = content.IndexOf(finPred);
-
-				//content = content.Remove(indexStart, indexEnd - indexStart + finPred.Length);
-				//content = content.Insert(indexStart, "METTRE-CODE-ICI");
-
-				//string debutCodeBlock = MarkdownSyntax.CODE_START + langage + Environment.NewLine;
-				//content = content.Replace("METTRE-CODE-ICI", debutCodeBlock + item.InnerText + MarkdownSyntax.CODE_END);
-
 				content = content.Replace(code.OuterHtml, MarkdownSyntax.CODE_IN_LINE + code.InnerHtml + MarkdownSyntax.CODE_IN_LINE);
 			}
 
 			return content;
-			//return content.Replace("<code>", MarkdownSyntax.CODE_IN_LINE)
-			//			.Replace(@"<\/code>", MarkdownSyntax.CODE_IN_LINE)
-			//			.Replace("</code>", MarkdownSyntax.CODE_IN_LINE);
 		}
 
 		private string ChangeStyle(string content)
