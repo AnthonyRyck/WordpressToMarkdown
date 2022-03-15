@@ -201,7 +201,7 @@ namespace WordpressToMarkdown
 					content = content.Remove(indexStart, indexEnd - indexStart + figureEnd.Length);
 					content = content.Insert(indexStart, URL_VIDEO);
 
-					content = content.Replace(URL_VIDEO, "[VIDEO](" + videoTag.Attributes["src"].Value + ")" + Environment.NewLine);
+					content = content.Replace(URL_VIDEO, MarkdownSyntax.BOLD + "[LINK TO VIDEO](" + videoTag.Attributes["src"].Value + ")" + MarkdownSyntax.BOLD + Environment.NewLine);
 				}
 			}
 			return content;
@@ -240,7 +240,7 @@ namespace WordpressToMarkdown
 				content = content.Insert(indexStart, "METTRE-CODE-ICI");
 
 				string debutCodeBlock = MarkdownSyntax.CODE_START + langage + Environment.NewLine;
-				content = content.Replace("METTRE-CODE-ICI", debutCodeBlock + item.InnerText + MarkdownSyntax.CODE_END);
+				content = content.Replace("METTRE-CODE-ICI", debutCodeBlock + item.InnerHtml + MarkdownSyntax.CODE_END);
 			}
 
 			return content;
