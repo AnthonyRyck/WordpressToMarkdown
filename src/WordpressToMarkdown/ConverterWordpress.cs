@@ -23,10 +23,12 @@ namespace WordpressToMarkdown
 		{
 			return Task.Factory.StartNew(() =>
 			{
-				contentPost.Insert(0, MarkdownSyntax.HEADER_1 + title);
-				
 				contentPost = WebUtility.HtmlDecode(contentPost);
 				htmlDocPost = new HtmlDocument();
+				htmlDocPost.OptionCheckSyntax = false;
+				htmlDocPost.OptionAutoCloseOnEnd = false;
+				htmlDocPost.OptionOutputOriginalCase = true;
+				htmlDocPost.OptionWriteEmptyNodes = true;
 				htmlDocPost.LoadHtml(contentPost);
 
 				contentPost = ChangeHeader(contentPost);
@@ -44,6 +46,7 @@ namespace WordpressToMarkdown
 					contentPost = userTransform.Transform(contentPost);
 				}
 
+				contentPost.Insert(1, MarkdownSyntax.HEADER_1 + title);
 				return contentPost;
 			});
 		}
@@ -255,7 +258,7 @@ namespace WordpressToMarkdown
 			content = content.Replace(ul, string.Empty);
 			content = content.Replace(ulFin, string.Empty);
 			content = content.Replace(li, "* ");
-			content = content.Replace(liFin, "  /r/n");
+			content = content.Replace(liFin, "  " + Environment.NewLine);
 
 			return content;
 		}
