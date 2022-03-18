@@ -133,6 +133,12 @@ namespace WordpressToMarkdown
 			{
 				try
 				{
+					string textCaption = string.Empty;
+					// récup des figcaption
+					var caption = item.Descendants().FirstOrDefault(x => x.Name == "figcaption");
+					if(caption != null)
+						textCaption = caption.InnerText;
+
 					// récup du tag img
 					var image = item.Descendants().FirstOrDefault(x => x.Name == "img");
 					if (image != null)
@@ -144,7 +150,18 @@ namespace WordpressToMarkdown
 						int indexEnd = content.IndexOf(div);
 
 						content = content.Remove(indexStart, indexEnd - indexStart + div.Length);
-						content = content.Insert(indexStart, "METTRE-TAG-IMG-ICI");
+
+						if(string.IsNullOrEmpty(textCaption))
+						{
+							content = content.Insert(indexStart, "METTRE-TAG-IMG-ICI");
+						}
+						else
+						{
+							content = content.Insert(indexStart, "METTRE-TAG-IMG-ICI  " 
+													+ Environment.NewLine 
+													+ MarkdownSyntax.ITALIC + textCaption + MarkdownSyntax.ITALIC 
+													+ MarkdownSyntax.SAUT_LIGNE);
+						}
 
 						content = content.Replace("METTRE-TAG-IMG-ICI", image.OuterHtml + Environment.NewLine);
 					}
@@ -154,6 +171,7 @@ namespace WordpressToMarkdown
 					// On laisse le contenu.
 				}
 			}
+
 			return content;
 		}
 
