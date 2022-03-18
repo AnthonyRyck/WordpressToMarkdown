@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Login to DockerHub
-        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username anthonyryck --password-stdin
       - name: Build image
         run: docker build --file ./src/dockerfilegitactions --tag anthonyryck/MarkdownWordpress:latest .
       - name: Push to DockerHub
