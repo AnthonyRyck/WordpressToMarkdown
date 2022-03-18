@@ -1,5 +1,7 @@
-﻿using MarkdownWordpress.ModelsValidation;
+﻿using BlazorDownloadFile;
+using MarkdownWordpress.ModelsValidation;
 using Microsoft.AspNetCore.Components;
+using System.Text;
 using WordpressToMarkdown;
 using WordpressToMarkdown.Models;
 
@@ -7,15 +9,17 @@ namespace MarkdownWordpress.ViewModels
 {
 	public class MainViewModel : IMainViewModel
 	{
-		public MainViewModel(WordpressCollector converterWordpress)
+		public MainViewModel(WordpressCollector converterWordpress, IBlazorDownloadFileService downloadService)
 		{
 			ResultConvertMd = new List<MarkdownResult>();
 			Url = new WordpressSiteValidation();
 			_converter = converterWordpress;
+			downloadSvc = downloadService;
 		}
 
 		private WordpressCollector _converter;
 		private Action State;
+		private IBlazorDownloadFileService downloadSvc;
 
 		#region Implement IMainViewModel
 
@@ -53,6 +57,15 @@ namespace MarkdownWordpress.ViewModels
 		{
 			State = state;
 		}
+
+
+		public async Task Download()
+		{
+			// créer un fichier
+			byte[] content = Encoding.UTF8.GetBytes(ResultMarkdownSelected.MarkdownContent);
+			await downloadSvc.DownloadFile(ResultMarkdownSelected.Titre + ".md", content, "application/octet-stream");
+		}
+
 
 		#endregion
 	}

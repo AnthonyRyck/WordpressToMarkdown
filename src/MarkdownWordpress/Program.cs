@@ -1,3 +1,4 @@
+using BlazorDownloadFile;
 using MarkdownWordpress.ViewModels;
 using MudBlazor;
 using MudBlazor.Services;
@@ -13,6 +14,8 @@ builder.Services.AddScoped<IMainViewModel, MainViewModel>();
 builder.Services.AddScoped(typeof(WordpressCollector));
 builder.Services.AddMudServices();
 builder.Services.AddMudMarkdownServices();
+builder.Services.AddBlazorDownloadFile(ServiceLifetime.Scoped);
+
 
 var app = builder.Build();
 

@@ -27,6 +27,12 @@ namespace MarkdownWordpress.ViewModels
 		void OnValidSubmitUrl();
 
 		/// <summary>
+		/// Permet de télécharger les posts en MD.
+		/// </summary>
+		/// <returns></returns>
+		Task Download();
+
+		/// <summary>
 		/// Lors de la sélection d'un résultat.
 		/// </summary>
 		void OnSelectResultMd(ChangeEventArgs e);

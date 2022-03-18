@@ -25,11 +25,18 @@
 	<select id="resultMd"
 			@onchange="viewModel.OnSelectResultMd">
 
+		<option value="NoCHOICE"></option>
 		@foreach (var result in viewModel.ResultConvertMd)
 		{
 	    <option value="@result.Titre">@result.Titre</option>
 		}
 	</select>
+	@if(viewModel.ResultMarkdownSelected != null)
+	{
+	<button type="button" 
+			class="btn btn-secondary" 
+			@onclick="viewModel.Download">Télécharger</button>
+	}
 </div>
 
 @*Affichage d'un coté le résulat MD "brut" et de l'autre avec la mise en forme*@
@@ -53,7 +60,7 @@
 </div>
 
 @code {
-   	protected override async Task OnInitializedAsync()
+   	protected override void OnInitialized()
 	{
 		viewModel.SetStateHasChanged(StateHasChanged);
 	}
