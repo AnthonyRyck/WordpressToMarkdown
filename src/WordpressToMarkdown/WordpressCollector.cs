@@ -32,7 +32,7 @@ namespace WordpressToMarkdown
 				if (post.Count == 1)
 				{
 					ConverterWordpress converter = new ConverterWordpress();
-					string contentMD = await converter.ConvertToMarkdownAsync(post[0].content.rendered);
+					string contentMD = await converter.ConvertToMarkdownAsync(post[0].title.rendered, post[0].content.rendered); ;
 				}
 			}
 			catch (Exception ex)
@@ -56,12 +56,11 @@ namespace WordpressToMarkdown
 				ConverterWordpress converter = new ConverterWordpress();
 				foreach (var post in posts)
 				{
-					string contentMD = await converter.ConvertToMarkdownAsync(post.content.rendered);
+					string contentMD = await converter.ConvertToMarkdownAsync(post.title.rendered, post.content.rendered); ;
 
 					var result = new MarkdownResult();
 					result.MarkdownContent = contentMD;
 					result.Titre = post.slug;
-					result.ContentBrut = post.content.rendered;
 					resultsMd.Add(result);
 				}
 			}

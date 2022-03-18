@@ -19,10 +19,12 @@ namespace WordpressToMarkdown
 
 
 
-		public Task<string> ConvertToMarkdownAsync(string contentPost, params ITransformWordpress[] transformations)
+		public Task<string> ConvertToMarkdownAsync(string title, string contentPost, params ITransformWordpress[] transformations)
 		{
 			return Task.Factory.StartNew(() =>
 			{
+				contentPost.Insert(0, MarkdownSyntax.HEADER_1 + title);
+				
 				contentPost = WebUtility.HtmlDecode(contentPost);
 				htmlDocPost = new HtmlDocument();
 				htmlDocPost.LoadHtml(contentPost);
@@ -83,18 +85,6 @@ namespace WordpressToMarkdown
 			}
 
 			return content;
-			//return content.Replace("<h1>", MarkdownSyntax.HEADER_1)
-			//		.Replace(@"<\/h1>", Environment.NewLine)
-			//		.Replace("<h2>", MarkdownSyntax.HEADER_2)
-			//		.Replace(@"<\/h2>", Environment.NewLine)
-			//		.Replace("<h3>", MarkdownSyntax.HEADER_3)
-			//		.Replace(@"<\/h3>", Environment.NewLine)
-			//		.Replace("<h4>", MarkdownSyntax.HEADER_4)
-			//		.Replace(@"<\/h4>", Environment.NewLine)
-			//		.Replace("<h5>", MarkdownSyntax.HEADER_5)
-			//		.Replace(@"<\/h5>", Environment.NewLine)
-			//		.Replace("<h6>", MarkdownSyntax.HEADER_6)
-			//		.Replace(@"<\/h6>", Environment.NewLine);
 		}
 
 		private string ChangeRetourLigne(string content)

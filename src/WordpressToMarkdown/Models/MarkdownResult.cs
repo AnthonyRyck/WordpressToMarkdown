@@ -12,6 +12,5 @@ namespace WordpressToMarkdown.Models
 
 		public string MarkdownContent { get; set; }
 
-		public string ContentBrut { get; set; }
 	}
 }
