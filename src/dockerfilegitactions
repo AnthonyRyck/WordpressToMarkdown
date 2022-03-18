@@ -1,0 +1,20 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.1-bullseye-slim AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0.101-bullseye-slim AS build
+WORKDIR /src
+COPY ["./src/WordpressToMarkdown/", "WordpressToMarkdown/"]
+COPY ["./src/MarkdownWordpress/", "MarkdownWordpress/"]
+
+RUN dotnet restore "MarkdownWordpress/MarkdownWordpress.csproj"
+RUN dotnet build "MarkdownWordpress/MarkdownWordpress.csproj" -c ReleaseDocker -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "MarkdownWordpress/MarkdownWordpress.csproj" -c ReleaseDocker -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "MarkdownWordpress.dll"]
