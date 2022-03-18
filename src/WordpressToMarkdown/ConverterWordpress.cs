@@ -46,7 +46,8 @@ namespace WordpressToMarkdown
 					contentPost = userTransform.Transform(contentPost);
 				}
 
-				contentPost = contentPost.Insert(1, MarkdownSyntax.HEADER_1 + title);
+				contentPost = contentPost.Insert(1, MarkdownSyntax.HEADER_1 + WebUtility.HtmlDecode(title) + Environment.NewLine);
+				
 				return contentPost;
 			});
 		}

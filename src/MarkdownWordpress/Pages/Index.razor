@@ -21,6 +21,16 @@
 	</EditForm>
 </div>
 
+@if(viewModel.IsLoading)
+{
+	<div>Récupération du JSON en cours, et convertion en MarkDown...</div>
+}
+
+@if(viewModel.IsError)
+{
+	<div class="alert">Erreur sur la récupération ou la conversion des données</div>
+}
+
 <div class="padding-10px">
 	<select id="resultMd"
 			@onchange="viewModel.OnSelectResultMd">

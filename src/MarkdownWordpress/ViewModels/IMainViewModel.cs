@@ -22,6 +22,16 @@ namespace MarkdownWordpress.ViewModels
 		MarkdownResult ResultMarkdownSelected { get; set; }
 
 		/// <summary>
+		/// Indique un chargement
+		/// </summary>
+		bool IsLoading { get; }
+
+		/// <summary>
+		/// Indique une erreur
+		/// </summary>
+		bool IsError { get; }
+
+		/// <summary>
 		/// Valide la saisie
 		/// </summary>
 		void OnValidSubmitUrl();

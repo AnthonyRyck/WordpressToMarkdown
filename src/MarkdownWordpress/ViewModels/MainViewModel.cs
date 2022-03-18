@@ -32,17 +32,25 @@ namespace MarkdownWordpress.ViewModels
 
 		public MarkdownResult ResultMarkdownSelected { get; set; }
 
+		public bool IsLoading { get; private set; }
+
+		public bool IsError { get; private set; }
+
 		public async void OnValidSubmitUrl()
 		{
+			IsLoading = true;
+			IsError = false;
 			try
 			{
 				ResultConvertMd = await _converter.GetPosts(Url.UrlWordpressSite);
-				State.Invoke();
 			}
 			catch (Exception ex)
 			{
-				throw;
+				IsError = true;
 			}
+			IsLoading = false;
+
+			State.Invoke();
 		}
 
 
