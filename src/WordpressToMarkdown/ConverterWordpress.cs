@@ -37,6 +37,7 @@ namespace WordpressToMarkdown
 				contentPost = ChangeLink(contentPost);
 				contentPost = ChangeImage(contentPost);
 				contentPost = ChangeVideo(contentPost);
+				contentPost = ChangeQuote(contentPost);
 				contentPost = ChangeCodeEnLigne(contentPost);
 				contentPost = ChangeCodeBlock(contentPost);
 				contentPost = ChangeRetourLigne(contentPost);
@@ -247,7 +248,6 @@ namespace WordpressToMarkdown
 			return content;
 		}
 
-
 		private string ChangeList(string content)
 		{
 			string ul = "<ul>";
@@ -260,6 +260,44 @@ namespace WordpressToMarkdown
 			content = content.Replace(ulFin, string.Empty);
 			content = content.Replace(li, "* ");
 			content = content.Replace(liFin, "  " + Environment.NewLine);
+
+			return content;
+		}
+
+		private string ChangeQuote(string content)
+		{
+			// Exemple :
+			// <blockquote class="wp-block-quote">
+			var lesQuotes = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "blockquote");
+
+			string quoteStart = "<blockquote";
+			string quoteEnd = "</blockquote>";
+
+			foreach (var quote in lesQuotes)
+			{
+				int indexStart = content.IndexOf(quoteStart);
+				int indexEnd = content.IndexOf(quoteEnd);
+				content = content.Remove(indexStart, indexEnd - indexStart + quoteEnd.Length);
+
+				string sourceCite = string.Empty;
+				// récup si source citation
+				var cite = quote.Descendants().FirstOrDefault(x => x.Name == "cite");
+				if (cite != null)
+					sourceCite = cite.InnerText;
+
+				if (string.IsNullOrEmpty(sourceCite))
+				{
+					content = content.Insert(indexStart, "METTRE-QUOTE-ICI");
+				}
+				else
+				{
+					content = content.Insert(indexStart, "METTRE-QUOTE-ICI  "
+											+ Environment.NewLine
+											+ MarkdownSyntax.ITALIC + MarkdownSyntax.QUOTE_SOURCE + sourceCite + MarkdownSyntax.ITALIC
+											+ MarkdownSyntax.SAUT_LIGNE);
+				}
+				content = content.Replace("METTRE-QUOTE-ICI", MarkdownSyntax.QUOTE + quote.InnerText + Environment.NewLine);
+			}
 
 			return content;
 		}

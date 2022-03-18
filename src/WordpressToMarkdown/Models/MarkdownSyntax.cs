@@ -52,6 +52,10 @@ namespace WordpressToMarkdown.Models
 
 		public const string CODE_IN_LINE = "`";
 
+
+		public const string QUOTE = ">";
+		public const string QUOTE_SOURCE = "Source : ";
+
 		public static string Image(string name, string url)
 		{
 			return "[" + name + "](" + url + ")";
