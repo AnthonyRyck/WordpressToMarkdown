@@ -1,0 +1,60 @@
+﻿@page "/"
+@inject IMainViewModel viewModel
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<div>
+	<div>URL du site wordpress : </div>
+	<EditForm Model="@viewModel.Url" 
+				OnValidSubmit="@viewModel.OnValidSubmitUrl">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div>
+			<ValidationMessage For="@(() => viewModel.Url)" />
+		</div>
+		<InputText id="name" @bind-Value="viewModel.Url.UrlWordpressSite" />
+		
+		<button type="submit">Connexion</button>
+	</EditForm>
+</div>
+
+
+
+@*Affichage d'un coté le résulat "JSON" et de l'autre la convertion*@
+<div>
+	<select id="resultMd"
+			@onchange="viewModel.OnSelectResultMd">
+
+		@foreach (var result in viewModel.ResultConvertMd)
+		{
+	    <option value="@result.Titre">@result.Titre</option>
+		}
+	</select>
+</div>
+
+<div class="row">
+	@if(viewModel.ResultMarkdownSelected != null)
+	{
+	<div class="col-6">
+			@viewModel.ResultMarkdownSelected.ContentBrut;
+	</div>
+
+	<div class="col-6">
+		<div>
+			<MudMarkdown Value="@viewModel.ResultMarkdownSelected.MarkdownContent" 
+						CodeBlockTheme="CodeBlockTheme.AtomOneDark" />
+		</div>
+
+	</div>
+	}
+</div>
+
+@code {
+   	protected override async Task OnInitializedAsync()
+	{
+		viewModel.SetStateHasChanged(StateHasChanged);
+	}
+}

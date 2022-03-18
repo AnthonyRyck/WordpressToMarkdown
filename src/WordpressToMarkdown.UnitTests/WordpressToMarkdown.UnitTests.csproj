@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ContentToTest.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="sampleCtrlAltSuppr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,6 +1,9 @@
 using Xunit;
 using System;
 using System.IO;
+using System.Collections.Generic;
+using WordpressToMarkdown.Models;
+using System.Text.Json;
 
 namespace WordpressToMarkdown.UnitTests
 {
@@ -16,45 +19,22 @@ namespace WordpressToMarkdown.UnitTests
 			_sampleJson = File.OpenRead(file);
 		}
 
-		[Fact]
-		public async void TestConvertToObject()
-		{
-			#region Arrange
-
-			ConverterWordpress converter = new ConverterWordpress();
-
-			#endregion
-
-			#region Act
-
-			var result = await converter.ConvertToObject(_sampleJson);
-
-			#endregion
-
-			#region Assert
-
-			Assert.True(result.Count == 1);
-
-			#endregion
-		}
-
 
 		[Fact]
 		public async void Test()
 		{
 			#region Arrange
 
-			var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NAME_SAMPLE_FILE);
-			//string contentSample = File.ReadAllText(file);
-
+			var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ContentToTest.txt");
+			var contentSample = File.ReadAllText(file);
+			
 			ConverterWordpress converter = new ConverterWordpress();
 
 			#endregion
 
 			#region Act
 			
-			var post = await converter.ConvertToObject(File.OpenRead(file));
-			var result = converter.ConvertToMarkdown(post[0].content.rendered);
+			var result = converter.ConvertToMarkdownAsync(contentSample);
 
 			#endregion
 
@@ -67,19 +47,21 @@ namespace WordpressToMarkdown.UnitTests
 
 
 		[Fact]
-		public void TestCodeConversion()
+		public async void TestCodeConversion()
 		{
 			#region Arrange
 
-			var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CodeBlock.txt");
-			string contentSample = File.ReadAllText(file);
+			string urlPost = "https://www.ctrl-alt-suppr.dev/2022/03/08/passer-du-c-au-typescript/";
+
+			string urlAllPosts = "https://www.ctrl-alt-suppr.dev/wp-json/wp/v2/posts";
 
 			#endregion
 
 			#region Act
 
-			ConverterWordpress converter = new ConverterWordpress();
-			var tt = converter.ConvertToMarkdown(contentSample);
+			WordpressCollector collector = new WordpressCollector();
+			//await collector.GetOnePost(urlPost);
+			await collector.GetPosts(urlAllPosts);
 
 			#endregion
 

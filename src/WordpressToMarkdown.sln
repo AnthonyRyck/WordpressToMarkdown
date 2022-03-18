@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordpressToMarkdown", "Word
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F5CCCB41-AFD1-4053-9337-584CF19994CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordpressToMarkdown.UnitTests", "WordpressToMarkdown.UnitTests\WordpressToMarkdown.UnitTests.csproj", "{D86339AB-AD9F-4E2C-AD3C-B539CB12D8B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordpressToMarkdown.UnitTests", "WordpressToMarkdown.UnitTests\WordpressToMarkdown.UnitTests.csproj", "{D86339AB-AD9F-4E2C-AD3C-B539CB12D8B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{B91FC950-5629-41B1-BFB7-A1A1B972C100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownWordpress", "MarkdownWordpress\MarkdownWordpress.csproj", "{8C68D777-F69E-49C4-940D-AD7A0E67FDF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +27,17 @@ Global
 		{D86339AB-AD9F-4E2C-AD3C-B539CB12D8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D86339AB-AD9F-4E2C-AD3C-B539CB12D8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D86339AB-AD9F-4E2C-AD3C-B539CB12D8B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C68D777-F69E-49C4-940D-AD7A0E67FDF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C68D777-F69E-49C4-940D-AD7A0E67FDF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C68D777-F69E-49C4-940D-AD7A0E67FDF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C68D777-F69E-49C4-940D-AD7A0E67FDF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D86339AB-AD9F-4E2C-AD3C-B539CB12D8B8} = {F5CCCB41-AFD1-4053-9337-584CF19994CF}
+		{8C68D777-F69E-49C4-940D-AD7A0E67FDF9} = {B91FC950-5629-41B1-BFB7-A1A1B972C100}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {486AC772-9E85-4775-A312-B412204A5E8F}

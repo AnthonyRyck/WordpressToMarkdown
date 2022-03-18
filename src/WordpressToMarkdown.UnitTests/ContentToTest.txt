@@ -1,0 +1,564 @@
+
+<p>Quand on commence un nouveau langage, une nouvelle techno, nous cherchons toujours à nous rattacher à ce que nous connaissons. Quand je me suis mis à REACT/Angular avec du Typescript, et venant du monde .NET C#, j’ai commencé à faire les différences et les points communs entre ces langages.</p>
+
+
+
+<h2>Qu’est-ce que TypeScript ? </h2>
+
+
+
+<p>TypeScript est un langage open source développé et maintenu par Microsoft (<a rel="noreferrer noopener" href="https://github.com/microsoft/TypeScript" target="_blank">github source</a>), sous licence Apache 2. Il s’agit d’un « sur-ensemble » (<em>super set</em>) typé de Javascript qui se « compile » en JavaScript brut. Je mets des guillemets pour compiler, car ce n’est pas une compilation comme en C#, mais une transpilation (<em><a rel="noreferrer noopener" href="https://fr.wiktionary.org/wiki/transpiler" data-type="URL" data-id="https://fr.wiktionary.org/wiki/transpiler" target="_blank">transpiler</a></em>) du code TypeScript en code Javascript.</p>
+
+
+
+<div class="wp-block-image is-style-rounded"><figure class="aligncenter size-large"><img src="https://www.tektutorialshub.com/wp-content/uploads/2019/08/What-is-Typescript.-It-is-a-Superset-of-Javascript.png" alt=""/></figure></div>
+
+
+
+<p>La commande pour « compiler » un fichier TypeScript en javascript est : <br><code>tsc nomDuFichier.ts</code>. <br>La commande va générer un fichier du même nom, mais en js (javascript).<br>Mais alors pourquoi faire du TypeScript si c’est pour avoir du JavaScript en sortie ?<br>JavaScript est un langage dynamiquement typé. Cette caractéristique, qui facilite la déclaration des variables, peut, dans certains cas, entraîner des résultats inattendus. Le système de type statique en TypeScript permet de décrire la forme d’un objet, permet à TypeScript de valider le bon fonctionnement du code. Les règles sont plus strictes avec du typage fort, du coup les erreurs peuvent se voir pendant l’écriture du code, pas à la fin en test/prod.</p>
+
+
+
+<h2>Comparaisons</h2>
+
+
+
+<p>Je vais mettre des bouts de code pour comparer les 2 langages, dans le sens C# vers Typescript. Pour tester les bouts de code vous pouvez utiliser avec Visual Studio Code pour C# <a rel="noreferrer noopener" href="https://github.com/filipw/dotnet-script" data-type="URL" data-id="https://github.com/filipw/dotnet-script" target="_blank">dotnet script</a> (voir <a rel="noreferrer noopener" href="https://www.ctrl-alt-suppr.dev/2022/02/28/tips-tricks-du-script-en-c/" data-type="URL" data-id="https://www.ctrl-alt-suppr.dev/2022/02/28/tips-tricks-du-script-en-c/" target="_blank">mon post sur le sujet</a>) et pour TypeScript : <a rel="noreferrer noopener" href="https://deno.land/" data-type="URL" data-id="https://deno.land/" target="_blank">deno.land</a>, ou directement en ligne avec <a rel="noreferrer noopener" href="https://www.typescriptlang.org/play" data-type="URL" data-id="https://www.typescriptlang.org/play" target="_blank">Playground</a>.</p>
+
+
+
+<h4>Les variables</h4>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="C#" data-enlighter-group="variables">// Déclarer une variable
+var unNombre = 12345;
+var unBlabla = "Faire du blabla";
+// équivaut à :
+int unNombre = 12345;
+string unBlabla = "Faire du blabla";
+
+// Utilisation des constantes
+const int unAutreNombre = 123456;
+unAutreNombre = 123456; // ---> Exception</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="TS" data-enlighter-group="variables">// Déclarer une variable
+let unNombre = 12345;
+let unBlabla = "Faire du blabla";
+// équivaut à :
+let unNombre : number = 12345;
+let unBlabla : String = "Faire du blabla";
+
+// Utilisation des constantes
+const unAutreNombre = 123456;
+unAutreNombre = 123456; // ---> Exception</pre>
+
+
+
+<p>En C#, nous pouvons utiliser le mot clé <code>var</code> (<a rel="noreferrer noopener" href="https://docs.microsoft.com/fr-fr/dotnet/csharp/language-reference/keywords/var" data-type="URL" data-id="https://docs.microsoft.com/fr-fr/dotnet/csharp/language-reference/keywords/var" target="_blank">doc Microsoft</a>) pour déclarer une variable. C’est au moment de la compilation, que le compilateur va choisir le bon type pour la variable, mais nous pouvons aussi le dire de façon explicite, en indiquant directement le type. Personnellement je préfère, il n’y a pas ambiguïté. Pour les <a rel="noreferrer noopener" href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#the-primitives-string-number-and-boolean" target="_blank">types primitifs sur TS</a>.<br>En TS, c’est le mot clé <code>let</code> pour déclarer une variable, et n’a pas besoin d’être initialisée. Il y a aussi <code>var</code>, il est de portée sur la « function » et <code>let</code> est de portée sur le bloc. <br>Pour les 2 langages, <code>const</code> indique que c’est une constante. </p>
+
+
+
+<h4>Les conditions</h4>
+
+
+
+<h5>if, else</h5>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="c#" data-enlighter-group="ifelse">int x = 10;
+int y = 20;
+
+if (x > y) 
+{
+    Console.WriteLine("x est plus grand que y.");
+} 
+else
+{
+    Console.WriteLine("x est inférieur ou égal à y.");
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="ifelse">let x: number = 10;
+let y: number = 20;
+
+if (x > y) 
+{
+    console.log('x est plus grand que y.');
+} 
+else
+{
+    console.log('x est inférieur ou égal à y.');
+}</pre>
+
+
+
+<h5>switch</h5>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="c#" data-enlighter-group="switch">short day = 4;
+
+switch (day) {
+    case 1:
+        console.log("C'est lundi");
+        break;
+    case 2:
+        console.log("C'est mardi");
+        break;
+    case 3:
+        console.log("C'est mercredi");
+        break;
+    case 4:
+        console.log("C'est jeudi");
+        break;
+    case 5:
+        console.log("C'est vendredi");
+        break;
+    case 6:
+        console.log("C'est samedi");
+        break;
+    case 7:
+        console.log("C'est dimanche");
+    default:
+        console.log("Euhh... y a une coui(biiiip) dans le pâté");
+        break;
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="switch">let day : number = 4;
+
+switch (day) {
+    case 1:
+        console.log("C'est lundi");
+        break;
+    case 2:
+        console.log("C'est mardi");
+        break;
+    case 3:
+        console.log("C'est mercredi");
+        break;
+    case 4:
+        console.log("C'est jeudi");
+        break;
+    case 5:
+        console.log("C'est vendredi");
+        break;
+    case 6:
+        console.log("C'est samedi");
+        break;
+    case 7:
+        console.log("C'est dimanche");
+    default:
+        console.log("Euhh... y a une coui(biiiip) dans le pâté");
+        break;
+}</pre>
+
+
+
+<h4>Les boucles</h4>
+
+
+
+<h5>for</h5>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="C#" data-enlighter-group="bouclefor">for (var i = 0; i < 3; i++) 
+{
+  Console.WriteLine("Numéro de i = " + i);
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="TS" data-enlighter-group="bouclefor">for (let i = 0; i < 3; i++) 
+{
+  console.log ("Numéro de i = " + i);
+}</pre>
+
+
+
+<h5>foreach</h5>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="C#" data-enlighter-group="foreach">int[] collection = {10,20,30,40};
+
+foreach(var item in collection) {
+  Console.WriteLine(item);
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="TS" data-enlighter-group="foreach">let collection = [10, 20, 30, 40];
+
+for (var item of collection) {
+  console.log(item);
+}</pre>
+
+
+
+<h5>while</h5>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="C#" data-enlighter-group="while">int i = 1;
+
+while (i < 4) {
+    Console.WriteLine( "J'en suis à :" + i );
+    i++;
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="while">let i: number = 1;
+
+while (i < 4) {
+    console.log( "J'en suis à :" + i )
+    i++;
+}</pre>
+
+
+
+<h4>Les méthodes/functions</h4>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="c#" data-enlighter-group="function">// Fonction sans paramètre ni retour.
+public void Display()
+{
+   Console.WritleLine("Hello de C# !");
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="function">// Fonction sans paramètre ni retour.
+function display() 
+{
+    console.log("Hello de TypeScript!");
+}
+
+// pareil que
+function display() : void 
+{
+    console.log("Hello de TypeScript!");
+}</pre>
+
+
+
+<p>Le type retour d’une méthode en TS se met après les paramètres.<br><code>function NomDeLaFonction (nomParameter: type,...) : typeRetour { ... }</code><br>Si aucun retour, pas besoin d’ajouter le type de retour, mais nous pouvons le mettre ! Le retour <code>void</code> existe. Moi j’aime bien le mettre, c’est EXPLICITE !</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="c#" data-enlighter-group="fonctions">public string Greet(string greeting, string name) 
+{
+    return greeting + " " + name + "!";
+}
+
+// Avec paramètre optionnel.
+public string Greet(string greeting, string name = null)
+{
+    return greeting + " " + name + "!";
+}
+
+// Avec un paramètre par défaut
+public string Greet(string name, string greeting = "Hello")
+{
+    return greeting + " " + name + "!";
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="fonctions">function Greet(greeting: string, name: string ) : string 
+{
+    return greeting + ' ' + name + '!';
+}
+
+// Avec paramètre optionnel.
+function Greet(greeting: string, name?: string ) : string 
+{
+    return greeting + ' ' + name + '!';
+}
+
+// Avec un paramètre par défaut
+function Greet(name: string, greeting: string = "Hello") : string 
+{
+    return greeting + ' ' + name + '!';
+}</pre>
+
+
+
+<p>En TS il y a une différence entre un paramètre optionnel et un paramètre par défaut. Pour un paramètre optionnel <code>name?: string</code>, si le paramètre n’est pas indiqué lors de l’appel à la function, le type sera <code>undefined</code>.</p>
+
+
+
+<h4>Class</h4>
+
+
+
+<p>La doc sur les <code>class</code> en Typescript (<a rel="noreferrer noopener" href="https://www.typescriptlang.org/docs/handbook/2/classes.html" data-type="URL" data-id="https://www.typescriptlang.org/docs/handbook/2/classes.html" target="_blank">doc sur Typescript.org</a>). Je vais essayer de mettre le plus de chose dans le bout de code.</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="c#" data-enlighter-group="constructeur">public class Person
+{
+    protected readonly string name;
+    // Pour montrer les niveaux de visibilité
+    public int age;
+    string numSecu; // --> défaut en private
+
+    public Person(string nom, int age, string secu)
+    {
+        name = nom;
+        age = age;
+        numSecu = secu;
+    }
+}
+
+public class Habitant : Person
+{
+    public string Adresse { get; set; }
+    
+    // Juste pour montrer en "Full"
+    private string _autreAdresse;
+
+    public string AutreAdresse
+    {
+        get { return _autreAdresse; }
+        set { _autreAdresse = value; }
+    }
+
+    public Habitant(string nom, int age, string secu, string adress)
+        : base(nom, age, secu) // Appel au constructeur de Person
+    {
+        Adresse = adress;
+    }
+
+    public void WhoAreYou()
+    {
+        Console.WriteLine($"Je suis " + this.name + " et j'habite au " + this.Adresse);
+    }
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="constructeur">class Person 
+{
+    // Fields
+    protected readonly name: string;
+    // Pour montrer les niveaux de visibilité
+    age: number; // --> défaut en public
+    private numSecu: string;
+  
+    constructor(nom: string, age: number, secu: string) 
+    {
+      this.name = nom;
+      this.age = age;
+      this.numSecu = secu;
+    }
+}
+
+class Habitant extends Person 
+{
+
+    // Field
+    _adresse: string;
+
+    // Getter et Setter
+    get adresse() {
+        return this._adresse;
+    }
+    set adresse(value) {
+        this._adresse = value;
+    }
+
+    // Constructeur
+    constructor(nom: string, age: number, secu: string, adress: string) 
+    {
+        // super : pour faire appel au constructeur de Person.
+        super(nom, age, secu);
+        this._adresse = adress;
+    }
+
+    public whoAreYou () : void 
+    {
+        console.log("Je suis " + this.name + " et j'habite au " + this.adresse)
+    }
+}
+
+// Utilisation de la class
+let hab : Habitant = new Habitant("Jean", 25, "15151548", "la bas");
+hab.whoAreYou();</pre>
+
+
+
+<p>En C# ou TS, il y a un quelques différences, mais ça reste très proche.</p>
+
+
+
+<h4>Interface</h4>
+
+
+
+<p>Bon là c’est la grosse différence que j’ai trouvé entre C# et TS.</p>
+
+
+
+<h5>Interface en tant que Type</h5>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">interface Person {
+    name: string;
+    age: number;
+}
+
+let quiEstce: Person = { name:"Jean", age:25 };</pre>
+
+
+
+<p>C’est une entité, un simple objet POCO en C#. Juste des propriétés sans méthode pour ajouter du « comportement ».</p>
+
+
+
+<h5>Interface « classique » par rapport au C#</h5>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">interface Person 
+{
+    name: string;
+    age: number;
+    
+    // Déclare une fonction
+    getAnneeNaissance(anneeEnCours: Date) : number;
+}</pre>
+
+
+
+<p>On peut déclarer une interface, avec des propriétés et des méthodes qui seront implémentés dans une class.</p>
+
+
+
+<h5>Interface comme type de fonction</h5>
+
+
+
+<p>L’interface TypeScript est également utilisée pour définir un type de fonction. Cela garantit la signature de la fonction.</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">// Interface comme type de fonction
+interface Person 
+{
+    name: string;
+    age: number;
+}
+
+createPerson(name: string, age: number) : void 
+{
+    // code de création
+    Person     
+}
+
+let unePersonne: Person = createPerson;</pre>
+
+
+
+<p>En TS : Les interfaces fournissent une structure aux objets. Elles peuvent hériter d’autres interfaces et des class.<br>En C# : Les interfaces sont des contrats pour les classes à implémenter. Elles peuvent seulement hériter d’autres interfaces.</p>
+
+
+
+<h4>Et le LINQ dans tout ça ?</h4>
+
+
+
+<p>Une des grandes forces de C# c’est <a href="https://docs.microsoft.com/fr-fr/dotnet/csharp/programming-guide/concepts/linq/" data-type="URL" data-id="https://docs.microsoft.com/fr-fr/dotnet/csharp/programming-guide/concepts/linq/" target="_blank" rel="noreferrer noopener">LINQ</a>, alors est-ce qu’il y a la même chose ? <br>Eh bien oui !</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://media.giphy.com/media/3KC2jD2QcBOSc/giphy.gif" alt=""/></figure></div>
+
+
+
+<h6>Where</h6>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="c#" data-enlighter-group="linqwhere">Person jean = new Person() { Name="Jean", Age=42, Sexe="homme"};
+Person gisel = new Person() { Name="Giselle",Age=52,Sexe="femme"};
+Person marcel = new Person() { Name="Marcel", Age=25,Sexe="homme"};
+Person marion = new Person() { Name="Marion", Age=28, Sexe="femme"};
+Person[] allPeople = new Person[] { jean,gisel, marcel, marion };
+
+var selectedPerson = allPeople.Where(x => x.Sexe == "homme");
+
+foreach (var person in selectedPerson)
+{
+	Console.WriteLine(person.Name);
+}
+
+public class Person
+{
+	public string Name { get; set; }
+	public int Age { get; set; }
+	public string Sexe { get; set; }
+}</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="linqwhere">interface Person{
+	name: string;
+	age: number;
+	sexe: string;
+}
+
+let allPeople : Person[] = [{name:"Jean", age: 42, sexe:"homme"},
+							{name:"Marcel", age: 25, sexe:"homme"},
+							{name:"Giselle", age:52, sexe:"femme"},
+							{name:"Marion", age:28, sexe:"femme"}]
+
+// utiliser "filter"
+let selectedPerson = allPeople.filter(x => x.sexe === 'homme');
+
+for(let person of selectedPerson)
+{
+	console.log(person.name);
+}</pre>
+
+
+
+<h6>Any</h6>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="c#" data-enlighter-group="linqany">bool found = allPeople.Any(x => x.age == 25);</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="linqany">boolean found = (allPeople.findIndex(x => x.age === 25) >= 0);</pre>
+
+
+
+<h6>FirstOrDefault</h6>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="csharp" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="c#" data-enlighter-group="linqfirstdefault">var person = allPeople.FirstOrDefault(x => x.Name == "Jean");</pre>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="typescript" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="ts" data-enlighter-group="linqfirstdefault">let person = allPeople.find(x => x.name === "Jean");</pre>
+
+
+
+<h2>Conclure</h2>
+
+
+
+<p>Je n’ai pas tout mis car il y a des particularités dans chaque langage, et c’est vraiment dans une utilisation quotidienne et sur du long terme qu’on maitrise un langage, mais nous pouvons voir que les 2 langages se rapproche beaucoup.</p>

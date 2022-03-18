@@ -141,20 +141,27 @@ namespace WordpressToMarkdown
 																	&& x.Attributes["class"].Value == "wp-block-image");
 			foreach (var item in lesImages)
 			{
-				// récup du tag img
-				var image = item.Descendants().FirstOrDefault(x => x.Name == "img");
-				if(image != null)
+				try
 				{
-					string div = "</div>";
+					// récup du tag img
+					var image = item.Descendants().FirstOrDefault(x => x.Name == "img");
+					if (image != null)
+					{
+						string div = "</div>";
 
-					string divImg = @"<div class=""wp-block-image"">";
-					int indexStart = content.IndexOf(divImg);
-					int indexEnd = content.IndexOf(div);
+						string divImg = @"<div class=""wp-block-image";
+						int indexStart = content.IndexOf(divImg);
+						int indexEnd = content.IndexOf(div);
 
-					content = content.Remove(indexStart, indexEnd - indexStart + div.Length);
-					content = content.Insert(indexStart, "METTRE-TAG-IMG-ICI");
+						content = content.Remove(indexStart, indexEnd - indexStart + div.Length);
+						content = content.Insert(indexStart, "METTRE-TAG-IMG-ICI");
 
-					content = content.Replace("METTRE-TAG-IMG-ICI", image.OuterHtml + Environment.NewLine);
+						content = content.Replace("METTRE-TAG-IMG-ICI", image.OuterHtml + Environment.NewLine);
+					}
+				}
+				catch (Exception ex)
+				{
+					// On laisse le contenu.
 				}
 			}
 			return content;
