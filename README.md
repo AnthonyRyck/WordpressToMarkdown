@@ -9,7 +9,7 @@ C'est une librairie qui permet de convertir un flux JSON d'un site wordpress en 
 
 ## Utilisations
 
-Soit il faut donner une URL d'un site (*[voir ici pour les infos]()*) a la `class WordpressCollector` qui va récupèrer le flux JSON et le convertir en markdown, comme par exemple :
+Soit il faut donner une URL d'un site (*[voir ici pour les infos]()*) à la `class WordpressCollector` qui va récupèrer le flux JSON et le convertir en markdown, comme par exemple :
 
 ```csharp
 // Récupère les 5 derniers articles
