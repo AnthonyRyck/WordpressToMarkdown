@@ -46,6 +46,10 @@ Ensuite, reste plus qu'à fournir vos transformations à la `class ConverterWord
 public Task<string> ConvertToMarkdownAsync(string title, string contentPost, params ITransformWordpress[] transformations);
 ```
 
+## Conversion
+Pour les blocks de code, j'utilise sur Wordpress l'extension [Enlighter](https://wordpress.org/plugins/enlighter/), du coup mes transformations sont basées sur certains "mots clés" de cette extension.  
+Par exemple, pour avoir le langage, je prend sur l'attribut : `data-enlighter-language`.  
+
 ## Problème connu
 Pour la conversion, j'utilise la librairie [HtmlAgilityPack](https://html-agility-pack.net/), et il arrive qu'elle ajoute des "balises" fermantes sur des portions de code.  
 Comme par exemple :  
