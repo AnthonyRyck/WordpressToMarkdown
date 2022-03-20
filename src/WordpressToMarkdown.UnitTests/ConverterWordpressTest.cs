@@ -34,7 +34,7 @@ namespace WordpressToMarkdown.UnitTests
 
 			#region Act
 			
-			var result = converter.ConvertToMarkdownAsync(contentSample);
+			var result = await converter.ConvertToMarkdownAsync("TEST", contentSample);
 
 			#endregion
 
@@ -72,6 +72,32 @@ namespace WordpressToMarkdown.UnitTests
 			#endregion
 
 		}
+
+
+		[Fact]
+		public async void ConversionTableauToMarkdown()
+		{
+			#region Arrange
+
+			string tableau = @"<div><figure class=""wp-block-table""><table><thead><tr><th>Virtual environment</th><th>YAML workflow label</th></tr></thead><tbody><tr><td>Windows Server 2019</td><td>`windows-latest` or `windows-2019`</td></tr><tr><td>Ubuntu 20.04</td><td>`ubuntu-latest` or `ubuntu-20.04`</td></tr><tr><td>Ubuntu 18.04</td><td>`ubuntu-18.04`</td></tr><tr><td>Ubuntu 16.04</td><td>`ubuntu-16.04`</td></tr><tr><td>macOS Big Sur 11.0</td><td>`macos-11.0`</td></tr><tr><td>macOS Catalina 10.15</td><td>`macos-latest` or `macos-10.15`</td></tr></tbody></table></figure></div>";
+
+			#endregion
+
+			#region Act
+
+			ConverterWordpress converter = new ConverterWordpress();
+			var result = await converter.ConvertToMarkdownAsync("TEST", tableau);
+
+			#endregion
+
+			#region Assert
+
+			Assert.True(true);
+
+			#endregion
+
+		}
+
 
 	}
 }

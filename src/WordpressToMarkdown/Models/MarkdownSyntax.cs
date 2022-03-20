@@ -56,10 +56,12 @@ namespace WordpressToMarkdown.Models
 		public const string QUOTE = ">";
 		public const string QUOTE_SOURCE = "Source : ";
 
-		public static string Image(string name, string url)
-		{
-			return "[" + name + "](" + url + ")";
-		}
+
+		public const string SEPARATEUR_TABLE = "| ----- ";
+		public const string SEPARATEUR_FIN_TABLE = "| ----- |\r\n";
+		public const string LIGNE_DEBUT_DATA_TABLE = "| ";
+		public const string LIGNE_INTERDATA_TABLE = " | ";
+		public const string LIGNE_FIN_DATA_TABLE = " |\r\n";
 
 	}
 }

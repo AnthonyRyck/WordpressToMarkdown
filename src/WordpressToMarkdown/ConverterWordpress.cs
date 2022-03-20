@@ -41,6 +41,7 @@ namespace WordpressToMarkdown
 				contentPost = ChangeQuote(contentPost);
 				contentPost = ChangeCodeEnLigne(contentPost);
 				contentPost = ChangeCodeBlock(contentPost);
+				contentPost = ChangeTable(contentPost);
 				contentPost = ChangeRetourLigne(contentPost);
 
 				foreach (var userTransform in transformations)
@@ -97,6 +98,7 @@ namespace WordpressToMarkdown
 		{
 			content = content.Replace(CHAGEMENT_PARAGRAPHE, string.Empty)
 						.Replace("<br>", MarkdownSyntax.SAUT_LIGNE)
+						.Replace("<br />", MarkdownSyntax.SAUT_LIGNE)
 						.Replace("<p>", Environment.NewLine)
 						.Replace(@"<\/p>", MarkdownSyntax.SAUT_LIGNE)
 						.Replace("</p>", MarkdownSyntax.SAUT_LIGNE);
@@ -195,9 +197,9 @@ namespace WordpressToMarkdown
 						textCaption = caption.InnerText;
 
 					// récup du tag img
-					var image = item.Descendants().FirstOrDefault(x => x.Name == "img");
-					if (image != null)
-					{
+					//var image = item.Descendants().FirstOrDefault(x => x.Name == "img");
+					//if (image != null)
+					//{
 						string figure = "</figure>";
 
 						string figureImg = @"<figure class=""wp-block-image";
@@ -218,8 +220,8 @@ namespace WordpressToMarkdown
 													+ MarkdownSyntax.SAUT_LIGNE);
 						}
 
-						content = content.Replace(METTRE_IMG_ICI, image.OuterHtml + Environment.NewLine);
-					}
+						content = content.Replace(METTRE_IMG_ICI, item.InnerHtml + Environment.NewLine);
+					//}
 				}
 				catch (Exception)
 				{
@@ -353,9 +355,63 @@ namespace WordpressToMarkdown
 		}
 
 
-		//private string ChangeTable(string content)
-		//{
+		private string ChangeTable(string content)
+		{
+			// Par Figure : Exemple
+			// <figure class="wp-block-table"><table><tbody><tr><td>**GitGuardian has detected the following NuGet API Key exposed within your GitHub account.**</td></tr><tr><td>**Details**  
+			// – Secret type: NuGet API Key
+			// – Repository: AnthonyRyck / RichLogger
+			// – Pushed date: April 13th 2021, 10:10:13 UTC </td></tr></tbody></table></figure >
+			var tableFigure = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "figure"
+																	&& x.HasAttributes
+																	&& x.Attributes["class"].Value.Contains("wp-block-table"));
+			foreach (var item in tableFigure)
+			{
+				try
+				{
+					// récup du tag table
+					var table = item.Descendants().FirstOrDefault(x => x.Name == "table");
+					// <thead><tr><th>Virtual environment</th><th>YAML workflow label</th></tr></thead><tbody><tr><td>Windows Server 2019</td><td>`windows-latest` or `windows-2019`</td></tr><tr><td>Ubuntu 20.04</td><td>`ubuntu-latest` or `ubuntu-20.04`</td></tr><tr><td>Ubuntu 18.04</td><td>`ubuntu-18.04`</td></tr><tr><td>Ubuntu 16.04</td><td>`ubuntu-16.04`</td></tr><tr><td>macOS Big Sur 11.0</td><td>`macos-11.0`</td></tr><tr><td>macOS Catalina 10.15</td><td>`macos-latest` or `macos-10.15`</td></tr></tbody>
+					if (table != null)
+					{
+						string figure = "</figure>";
+						string figureImg = @"<figure class=""wp-block-table";
 
-		//}
+						int indexStart = content.IndexOf(figureImg);
+						int indexEnd = content.IndexOf(figure);
+
+						content = content.Remove(indexStart, indexEnd - indexStart + figure.Length);
+						content = content.Insert(indexStart, "METTRE_TABLEAU");
+
+						var intColonne = table.Descendants("th").Count();
+						string separationHeaderBody = string.Empty;
+						for (int i = 0; i < intColonne; i++)
+						{
+							if((i+1) == intColonne)
+								separationHeaderBody += MarkdownSyntax.SEPARATEUR_FIN_TABLE;
+							else
+								separationHeaderBody += MarkdownSyntax.SEPARATEUR_TABLE;
+						}
+
+						string temp = table.InnerHtml.Replace(@"<thead><tr><th>", string.Empty)
+											.Replace("</th><th>", " | ")
+											.Replace("</th></tr></thead>", "  " + Environment.NewLine)
+											.Replace("<tbody>", separationHeaderBody)
+											.Replace("<tr><td>", MarkdownSyntax.LIGNE_DEBUT_DATA_TABLE)
+											.Replace("</td><td>", MarkdownSyntax.LIGNE_INTERDATA_TABLE)
+											.Replace("</td></tr>", MarkdownSyntax.LIGNE_FIN_DATA_TABLE)
+											.Replace("</tbody></table>", MarkdownSyntax.SAUT_LIGNE);
+
+						content = content.Replace("METTRE_TABLEAU", temp);
+					}
+				}
+				catch (Exception)
+				{
+					// On laisse le contenu.
+				}
+			}
+			return content;
+		}
+
 	}
 }
