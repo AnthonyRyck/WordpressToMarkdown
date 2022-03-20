@@ -44,9 +44,11 @@ namespace MarkdownWordpress.ViewModels
 			{
 				ResultConvertMd = await _converter.GetPosts(Url.UrlWordpressSite);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				IsError = true;
+				ResultConvertMd = new List<MarkdownResult>();
+				ResultMarkdownSelected = null;
 			}
 			IsLoading = false;
 

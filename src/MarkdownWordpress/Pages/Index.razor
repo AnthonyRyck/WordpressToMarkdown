@@ -29,7 +29,7 @@
 
 @if(viewModel.IsError)
 {
-	<div class="alert">Erreur sur la récupération ou la conversion des données</div>
+	<div class="alert error-msg">Erreur sur la récupération ou sur la conversion des données</div>
 }
 
 <div class="padding-10px">
@@ -49,22 +49,28 @@
 			@onclick="viewModel.Download">Télécharger</button>
 	}
 </div>
+<div>@viewModel.ResultConvertMd.Count résulat(s).</div>
 
 @*Affichage d'un coté le résulat MD "brut" et de l'autre avec la mise en forme*@
 <div class="row">
-	@if(viewModel.ResultMarkdownSelected != null)
-	{
-	<div class="col-6">
-		<textarea class="textarea" disabled>
-			@viewModel.ResultMarkdownSelected.MarkdownContent;
-		</textarea>
+	<div class="col-6 cadre">
+			<h3>Résultat</h3>
+			@if (viewModel.ResultMarkdownSelected != null)
+			{
+			<textarea class="textarea" disabled>
+					@viewModel.ResultMarkdownSelected.MarkdownContent;
+			</textarea>
+			}
 	</div>
 
-	<div class="col-6">
+	<div class="col-6 cadre">
+		<h3>Preview</h3>
+		@if(viewModel.ResultMarkdownSelected != null)
+			{
 			<MudMarkdown Value="@viewModel.ResultMarkdownSelected.MarkdownContent" 
 						CodeBlockTheme="CodeBlockTheme.AtomOneDark" />
+			}
 	</div>
-	}
 </div>
 
 @code {

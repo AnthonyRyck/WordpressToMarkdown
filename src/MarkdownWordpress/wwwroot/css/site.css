@@ -72,3 +72,15 @@ a, .btn-link {
 .padding-10px{
     padding: 10px;
 }
+
+.cadre {
+    border-style: solid;
+    border-block-color: black;
+    border-width: 2px;
+    border-radius: 3px;
+    padding:0px 5px 0px 5px;
+}
+
+.error-msg{
+    color: red;
+}
