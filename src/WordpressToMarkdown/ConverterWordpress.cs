@@ -10,7 +10,8 @@ namespace WordpressToMarkdown
 		/// Arrive quand il y a changement de paragraphe
 		/// </summary>
 		const string CHAGEMENT_PARAGRAPHE = "\n\n\n\n";
-		
+		private const string METTRE_IMG_ICI = "METTRE-TAG-IMG-ICI";
+
 		/// <summary>
 		/// C'est le post en version "HTML"
 		/// </summary>
@@ -133,7 +134,7 @@ namespace WordpressToMarkdown
 			// <div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://spectreconsole.net/assets/images/example.png" alt=""/><figcaption>Image de spectreconsole.net</figcaption></figure></div>
 			var lesImages = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "div" 
 																	&& x.HasAttributes 
-																	&& x.Attributes["class"].Value == "wp-block-image");
+																	&& x.Attributes["class"].Value.Contains("wp-block-image"));
 			foreach (var item in lesImages)
 			{
 				try
@@ -158,20 +159,69 @@ namespace WordpressToMarkdown
 
 						if(string.IsNullOrEmpty(textCaption))
 						{
-							content = content.Insert(indexStart, "METTRE-TAG-IMG-ICI");
+							content = content.Insert(indexStart, METTRE_IMG_ICI);
 						}
 						else
 						{
-							content = content.Insert(indexStart, "METTRE-TAG-IMG-ICI  " 
+							content = content.Insert(indexStart, METTRE_IMG_ICI + "  " 
 													+ Environment.NewLine 
 													+ MarkdownSyntax.ITALIC + textCaption + MarkdownSyntax.ITALIC 
 													+ MarkdownSyntax.SAUT_LIGNE);
 						}
 
-						content = content.Replace("METTRE-TAG-IMG-ICI", image.OuterHtml + Environment.NewLine);
+						content = content.Replace(METTRE_IMG_ICI, image.OuterHtml + Environment.NewLine);
 					}
 				}
-				catch (Exception ex)
+				catch (Exception)
+				{
+					// On laisse le contenu.
+				}
+			}
+
+
+			// Par Figure
+			// <figure class="wp-block-image size-large"><img src="https://raw.githubusercontent.com/AnthonyRyck/ctrl-alt-suppr/main/ImgBlog/GithubAction/CreerPackageNuget/GithubActions_01_Menu.png" alt=""/></figure>
+			var imgFigure = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "figure"
+																	&& x.HasAttributes
+																	&& x.Attributes["class"].Value.Contains("wp-block-image"));
+			foreach (var item in imgFigure)
+			{
+				try
+				{
+					string textCaption = string.Empty;
+					// récup des figcaption
+					var caption = item.Descendants().FirstOrDefault(x => x.Name == "figcaption");
+					if (caption != null)
+						textCaption = caption.InnerText;
+
+					// récup du tag img
+					var image = item.Descendants().FirstOrDefault(x => x.Name == "img");
+					if (image != null)
+					{
+						string figure = "</figure>";
+
+						string figureImg = @"<figure class=""wp-block-image";
+						int indexStart = content.IndexOf(figureImg);
+						int indexEnd = content.IndexOf(figure);
+
+						content = content.Remove(indexStart, indexEnd - indexStart + figure.Length);
+
+						if (string.IsNullOrEmpty(textCaption))
+						{
+							content = content.Insert(indexStart, METTRE_IMG_ICI);
+						}
+						else
+						{
+							content = content.Insert(indexStart, METTRE_IMG_ICI + "  "
+													+ Environment.NewLine
+													+ MarkdownSyntax.ITALIC + textCaption + MarkdownSyntax.ITALIC
+													+ MarkdownSyntax.SAUT_LIGNE);
+						}
+
+						content = content.Replace(METTRE_IMG_ICI, image.OuterHtml + Environment.NewLine);
+					}
+				}
+				catch (Exception)
 				{
 					// On laisse le contenu.
 				}
@@ -302,5 +352,10 @@ namespace WordpressToMarkdown
 			return content;
 		}
 
+
+		//private string ChangeTable(string content)
+		//{
+
+		//}
 	}
 }
