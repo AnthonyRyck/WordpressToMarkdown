@@ -12,6 +12,8 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddScoped<IMainViewModel, MainViewModel>();
 builder.Services.AddScoped(typeof(WordpressCollector));
+builder.Services.AddSingleton<ISuiviDownload, SuiviDownload>();
+
 builder.Services.AddMudServices();
 builder.Services.AddMudMarkdownServices();
 builder.Services.AddBlazorDownloadFile(ServiceLifetime.Scoped);

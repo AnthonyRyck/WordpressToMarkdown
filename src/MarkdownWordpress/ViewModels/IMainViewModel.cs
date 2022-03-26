@@ -32,6 +32,16 @@ namespace MarkdownWordpress.ViewModels
 		bool IsError { get; }
 
 		/// <summary>
+		/// Indique le nombre de téléchargement.
+		/// </summary>
+		int NombreDownload { get; }
+
+		/// <summary>
+		/// Indique la date du dernier téléchargement.
+		/// </summary>
+		string LastDownload { get; }
+
+		/// <summary>
 		/// Valide la saisie
 		/// </summary>
 		void OnValidSubmitUrl();
