@@ -1,5 +1,8 @@
 # WordpressToMarkdown
 
+[![NuGet](https://img.shields.io/nuget/vpre/WordpressToMarkdown.svg)](https://www.nuget.org/packages/WordpressToMarkdown/)
+[![Downloads](https://img.shields.io/nuget/dt/WordpressToMarkdown.svg)](https://www.nuget.org/packages/WordpressToMarkdown)
+
 [Français](https://github.com/AnthonyRyck/WordpressToMarkdown/blob/main/README.md#Utilisations)
 
 -----
