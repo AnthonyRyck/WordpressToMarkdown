@@ -16,5 +16,5 @@ RUN dotnet publish "MarkdownWordpress/MarkdownWordpress.csproj" -c ReleaseDocker
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-RUN MKDIR suivi
+RUN mkdir -p suivi
 ENTRYPOINT ["dotnet", "MarkdownWordpress.dll"]
