@@ -173,37 +173,6 @@ namespace WordpressToMarkdown
 							string imgText = MarkdownSyntax.IMAGE_START + textCaption + MarkdownSyntax.IMAGE_CAPTION + src + MarkdownSyntax.IMAGE_END + Environment.NewLine;
 							content = content.Replace(METTRE_IMG_ICI, imgText);
 						}
-
-						#region Old code
-
-
-
-
-
-
-
-						//string div = "</div>";
-
-						//string divImg = @"<div class=""wp-block-image";
-						//int indexStart = content.IndexOf(divImg);
-						//int indexEnd = content.IndexOf(div);
-
-						//content = content.Remove(indexStart, indexEnd - indexStart + div.Length);
-
-						//if(string.IsNullOrEmpty(textCaption))
-						//{
-						//	content = content.Insert(indexStart, METTRE_IMG_ICI);
-						//}
-						//else
-						//{
-						//	content = content.Insert(indexStart, METTRE_IMG_ICI + "  " 
-						//							+ Environment.NewLine 
-						//							+ MarkdownSyntax.ITALIC + textCaption + MarkdownSyntax.ITALIC 
-						//							+ MarkdownSyntax.SAUT_LIGNE);
-						//}
-
-						//content = content.Replace(METTRE_IMG_ICI, tagImage.OuterHtml + Environment.NewLine);
-						#endregion
 					}
 				}
 				catch (Exception)
@@ -240,32 +209,6 @@ namespace WordpressToMarkdown
 						else
 							content = content.Replace(item.OuterHtml, MarkdownSyntax.IMAGE_START + textCaption + MarkdownSyntax.IMAGE_CAPTION + src + MarkdownSyntax.IMAGE_END + Environment.NewLine);
 					}
-					//// récup du tag img
-					////var image = item.Descendants().FirstOrDefault(x => x.Name == "img");
-					////if (image != null)
-					////{
-					//string figure = "</figure>";
-
-					//string figureImg = @"<figure class=""wp-block-image";
-					//int indexStart = content.IndexOf(figureImg);
-					//int indexEnd = content.IndexOf(figure);
-
-					//content = content.Remove(indexStart, indexEnd - indexStart + figure.Length);
-
-					//if (string.IsNullOrEmpty(textCaption))
-					//{
-					//	content = content.Insert(indexStart, METTRE_IMG_ICI);
-					//}
-					//else
-					//{
-					//	content = content.Insert(indexStart, METTRE_IMG_ICI + "  "
-					//							+ Environment.NewLine
-					//							+ MarkdownSyntax.ITALIC + textCaption + MarkdownSyntax.ITALIC
-					//							+ MarkdownSyntax.SAUT_LIGNE);
-					//}
-
-					//content = content.Replace(METTRE_IMG_ICI, item.InnerHtml + Environment.NewLine);
-					//}
 				}
 				catch (Exception)
 				{
