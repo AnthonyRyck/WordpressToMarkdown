@@ -57,6 +57,11 @@ namespace WordpressToMarkdown.Models
 		public const string QUOTE_SOURCE = "Source : ";
 
 
+		public const string IMAGE_START = "![";
+		public const string IMAGE_CAPTION = "](";
+		public const string IMAGE_END = ")";		
+
+
 		public const string SEPARATEUR_TABLE = "| ----- ";
 		public const string SEPARATEUR_FIN_TABLE = "| ----- |\r\n";
 		public const string LIGNE_DEBUT_DATA_TABLE = "| ";

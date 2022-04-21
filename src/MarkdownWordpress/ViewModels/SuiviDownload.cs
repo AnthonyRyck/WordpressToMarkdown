@@ -12,6 +12,7 @@ namespace MarkdownWordpress.ViewModels
 
 		public SuiviDownload()
 		{
+			HistoDownload = new Download();
 			path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "suivi", "suivi.json");
 			LoadSaveFile().GetAwaiter();
 		}
