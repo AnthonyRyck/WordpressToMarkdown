@@ -165,12 +165,13 @@ namespace WordpressToMarkdown
 
 						if (string.IsNullOrEmpty(textCaption))
 						{
-							string imageText = MarkdownSyntax.IMAGE_START + MarkdownSyntax.IMAGE_CAPTION + src + MarkdownSyntax.IMAGE_END + Environment.NewLine;
+							string imageText = MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine;
 							content = content.Replace(METTRE_IMG_ICI, imageText);
 						}
 						else
 						{
-							string imgText = MarkdownSyntax.IMAGE_START + textCaption + MarkdownSyntax.IMAGE_CAPTION + src + MarkdownSyntax.IMAGE_END + Environment.NewLine;
+							string imgText = MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine
+											+ textCaption + "  " + Environment.NewLine;
 							content = content.Replace(METTRE_IMG_ICI, imgText);
 						}
 					}
@@ -180,8 +181,7 @@ namespace WordpressToMarkdown
 					// On laisse le contenu.
 				}
 			}
-
-
+			
 			// Par Figure
 			// <figure class="wp-block-image size-large"><img src="https://raw.githubusercontent.com/AnthonyRyck/ctrl-alt-suppr/main/ImgBlog/GithubAction/CreerPackageNuget/GithubActions_01_Menu.png" alt=""/></figure>
 			var imgFigure = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "figure"
@@ -205,9 +205,10 @@ namespace WordpressToMarkdown
 						string src = tagImage.Attributes["src"].Value;
 
 						if (string.IsNullOrEmpty(textCaption))
-							content = content.Replace(item.OuterHtml, MarkdownSyntax.IMAGE_START + MarkdownSyntax.IMAGE_CAPTION + src + MarkdownSyntax.IMAGE_END + Environment.NewLine);
+							content = content.Replace(item.OuterHtml, MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine);
 						else
-							content = content.Replace(item.OuterHtml, MarkdownSyntax.IMAGE_START + textCaption + MarkdownSyntax.IMAGE_CAPTION + src + MarkdownSyntax.IMAGE_END + Environment.NewLine);
+							content = content.Replace(item.OuterHtml, MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine
+																		+ textCaption + "  " + Environment.NewLine);
 					}
 				}
 				catch (Exception)

@@ -21,7 +21,7 @@ namespace WordpressToMarkdown.Models
 		/// <summary>
 		/// Correspond à un <br>
 		/// </summary>
-		public const string SAUT_LIGNE = ("  \r\n");
+		public const string SAUT_LIGNE = "  \r\n";
 
 		/// <summary>
 		/// Correspond au <strong>
@@ -57,8 +57,7 @@ namespace WordpressToMarkdown.Models
 		public const string QUOTE_SOURCE = "Source : ";
 
 
-		public const string IMAGE_START = "![";
-		public const string IMAGE_CAPTION = "](";
+		public const string IMAGE_START = "![](";
 		public const string IMAGE_END = ")";		
 
 
