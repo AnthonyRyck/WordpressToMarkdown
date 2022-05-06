@@ -117,6 +117,9 @@ namespace WordpressToMarkdown
 				content = content.Replace(code.OuterHtml, MarkdownSyntax.CODE_IN_LINE + code.InnerHtml + MarkdownSyntax.CODE_IN_LINE);
 			}
 
+			content = content.Replace("<code>", MarkdownSyntax.CODE_IN_LINE)
+							.Replace("</code>", MarkdownSyntax.CODE_IN_LINE);
+
 			return content;
 		}
 
@@ -135,7 +138,8 @@ namespace WordpressToMarkdown
 			// Exemple :
 			// <div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://spectreconsole.net/assets/images/example.png" alt=""/><figcaption>Image de spectreconsole.net</figcaption></figure></div>
 			var lesImages = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "div" 
-																	&& x.HasAttributes 
+																	&& x.HasAttributes
+																	&& x.Attributes["class"] != null
 																	&& x.Attributes["class"].Value.Contains("wp-block-image"));
 			foreach (var item in lesImages)
 			{
@@ -186,6 +190,7 @@ namespace WordpressToMarkdown
 			// <figure class="wp-block-image size-large"><img src="https://raw.githubusercontent.com/AnthonyRyck/ctrl-alt-suppr/main/ImgBlog/GithubAction/CreerPackageNuget/GithubActions_01_Menu.png" alt=""/></figure>
 			var imgFigure = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "figure"
 																	&& x.HasAttributes
+																	&& x.Attributes["class"] != null
 																	&& x.Attributes["class"].Value.Contains("wp-block-image"));
 			foreach (var item in imgFigure)
 			{
@@ -230,6 +235,7 @@ namespace WordpressToMarkdown
 			// <figure class="wp-block-video aligncenter"><video controls src="https://spectreconsole.net/assets/images/table.webm"></video><figcaption>Image de spectreconsole.net</figcaption></figure>
 			var lesImages = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "figure"
 																	&& x.HasAttributes
+																	&& x.Attributes["class"] != null
 																	&& x.Attributes["class"].Value.Contains("wp-block-video"));
 			foreach (var item in lesImages)
 			{
@@ -352,6 +358,7 @@ namespace WordpressToMarkdown
 			// – Pushed date: April 13th 2021, 10:10:13 UTC </td></tr></tbody></table></figure >
 			var tableFigure = htmlDocPost.DocumentNode.Descendants().Where(x => x.Name == "figure"
 																	&& x.HasAttributes
+																	&& x.Attributes["class"] != null
 																	&& x.Attributes["class"].Value.Contains("wp-block-table"));
 			foreach (var item in tableFigure)
 			{
