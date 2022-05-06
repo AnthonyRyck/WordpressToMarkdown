@@ -12,6 +12,8 @@ namespace WordpressToMarkdown
 		const string CHAGEMENT_PARAGRAPHE = "\n\n\n\n";
 		private const string METTRE_IMG_ICI = "METTRE-TAG-IMG-ICI";
 
+		private static readonly string[] headers = new string[] { "h1", "h2", "h3", "h4", "h5", "h6" };
+
 		/// <summary>
 		/// C'est le post en version "HTML"
 		/// </summary>
@@ -57,7 +59,7 @@ namespace WordpressToMarkdown
 
 		private string ChangeHeader(string content)
 		{
-			string[] headers = new string[] { "h1", "h2", "h3", "h4", "h5", "h6" };
+			
 
 			var lesHeaders = htmlDocPost.DocumentNode.Descendants().Where(x => headers.Contains(x.Name));
 			foreach (HtmlNode? header in lesHeaders)
@@ -88,7 +90,7 @@ namespace WordpressToMarkdown
 					
 				}
 
-				content = content.Replace(header.OuterHtml, headerSelected + header.InnerHtml + Environment.NewLine);
+				content = content.Replace(header.OuterHtml, Environment.NewLine + headerSelected + header.InnerHtml + Environment.NewLine);
 			}
 
 			return content;
@@ -169,12 +171,12 @@ namespace WordpressToMarkdown
 
 						if (string.IsNullOrEmpty(textCaption))
 						{
-							string imageText = MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine;
+							string imageText = Environment.NewLine + MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine;
 							content = content.Replace(METTRE_IMG_ICI, imageText);
 						}
 						else
 						{
-							string imgText = MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine
+							string imgText = Environment.NewLine + MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine
 											+ textCaption + "  " + Environment.NewLine;
 							content = content.Replace(METTRE_IMG_ICI, imgText);
 						}
@@ -210,9 +212,9 @@ namespace WordpressToMarkdown
 						string src = tagImage.Attributes["src"].Value;
 
 						if (string.IsNullOrEmpty(textCaption))
-							content = content.Replace(item.OuterHtml, MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine);
+							content = content.Replace(item.OuterHtml, Environment.NewLine + MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine);
 						else
-							content = content.Replace(item.OuterHtml, MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine
+							content = content.Replace(item.OuterHtml, Environment.NewLine + MarkdownSyntax.IMAGE_START + src + MarkdownSyntax.IMAGE_END + Environment.NewLine
 																		+ textCaption + "  " + Environment.NewLine);
 					}
 				}
@@ -249,7 +251,11 @@ namespace WordpressToMarkdown
 					content = content.Remove(indexStart, indexEnd - indexStart + figureEnd.Length);
 					content = content.Insert(indexStart, URL_VIDEO);
 
-					content = content.Replace(URL_VIDEO, MarkdownSyntax.BOLD + "[LINK TO VIDEO](" + videoTag.Attributes["src"].Value + ")" + MarkdownSyntax.BOLD + Environment.NewLine);
+					string markDownContent = Environment.NewLine + "Click to open video in new tab  "
+											+ $"[![](https://raw.githubusercontent.com/AnthonyRyck/WordpressToMarkdown/main/src/VideoIcon.png)]({videoTag.Attributes["src"].Value})"
+											+ Environment.NewLine;
+
+					content = content.Replace(URL_VIDEO, markDownContent);
 				}
 			}
 			return content;
@@ -288,7 +294,7 @@ namespace WordpressToMarkdown
 				content = content.Insert(indexStart, "METTRE-CODE-ICI");
 
 				string debutCodeBlock = MarkdownSyntax.CODE_START + langage + Environment.NewLine;
-				content = content.Replace("METTRE-CODE-ICI", debutCodeBlock + item.InnerHtml + MarkdownSyntax.CODE_END);
+				content = content.Replace("METTRE-CODE-ICI", Environment.NewLine + debutCodeBlock + item.InnerHtml + MarkdownSyntax.CODE_END);
 			}
 
 			return content;
